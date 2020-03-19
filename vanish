@@ -1,0 +1,66 @@
+#!/bin/sh
+echo "
+                    )  (    (        )  
+          (      ( /(  )\ ) )\ )  ( /(  
+ (   (    )\     )\())(()/((()/(  )\()) 
+ )\  )\((((_)(  ((_)\  /(_))/(_))((_)\  
+((_)((_))\ _ )\  _((_)(_)) (_))   _((_) 
+\ \ / / (_)_\(_)| \| ||_ _|/ __| | || | 
+ \ V /   / _ \  | .' | | | \__ \ | __ | 
+  \_/   /_/ \_\ |_|\_||___||___/ |_||_| 
+                                        
+"
+echo vanish - rev 2020.03 - ezekiel
+echo " "
+echo 1] encrypt
+echo 2] decrypt
+read CHOICE
+
+if [ $CHOICE = 1 ]; then
+	echo time to encrypt some stuff !
+	echo enter the name of the file:
+	read FILE
+
+	# Check if the folder exists
+	if test ! -d "$FILE"; then
+		echo "$FILE does not exist"
+		exit
+	fi
+
+	# Zip and encrypt the folder
+	zip -r $FILE.zip $FILE
+	gpg -c $FILE.zip
+
+	# Be sure that the previous command has not been aborted
+	if [ $? != 0 ]; then
+		exit $?
+	fi
+
+	# Remove/shred original folder and .zip file
+	echo shredding garbage, this may take some time...
+	shred --remove $FILE.zip
+	rm -r $FILE
+else
+	echo time to recover your stuff !
+	echo enter the name of the file:
+	read FILE
+
+	# Check if the file exists
+	if test ! -f "$FILE.zip.gpg"; then
+		echo "$FILE does not exist"
+		exit
+	fi
+
+	# Decrypt and unzip the folder
+	gpg $FILE.zip.gpg
+	unzip $FILE.zip
+
+	# Be sure that the previous command has not been aborted
+	if [ $? != 0 ]; then
+		exit $?
+	fi
+
+	# Shred and remove encrypted and zipped stuff
+	echo shredding garbage, this may take some time...
+	shred --remove $FILE.zip.gpg $FILE.zip
+fi
