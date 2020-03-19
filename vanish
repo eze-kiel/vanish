@@ -67,10 +67,11 @@ elif [ $CHOICE = 2 ]; then
 
 elif [ $CHOICE = 0 ]; then
 	echo quitting...
-	sleep 1
+	sleep 0.5
 	exit
+
 else
 	echo unknown input, quitting...
-	sleep 1
+	sleep 0.5
 	exit
 fi
