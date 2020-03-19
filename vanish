@@ -14,6 +14,7 @@ echo vanish - rev 2020.03 - ezekiel
 echo " "
 echo 1] encrypt
 echo 2] decrypt
+echo 0] quit
 read CHOICE
 
 if [ $CHOICE = 1 ]; then
@@ -40,7 +41,7 @@ if [ $CHOICE = 1 ]; then
 	echo shredding garbage, this may take some time...
 	shred --remove $FOLDER.zip
 	rm -r $FOLDER
-else
+elif [ $CHOICE = 2 ]; then
 	echo time to recover your stuff !
 	echo enter the name of the file:
 	read FILE
@@ -63,4 +64,13 @@ else
 	# Shred and remove encrypted and zipped stuff
 	echo shredding garbage, this may take some time...
 	shred --remove $FILE.zip.gpg $FILE.zip
+
+elif [ $CHOICE = 0 ]; then
+	echo quitting...
+	sleep 1
+	exit
+else
+	echo unknown input, quitting...
+	sleep 1
+	exit
 fi
