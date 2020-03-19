@@ -3,7 +3,7 @@
 
 Encrypt and decrypt folders with GPG.
 
-# Usage
+## Usage
 ```Shell
 $./vanish
 ```
