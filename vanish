@@ -18,18 +18,18 @@ read CHOICE
 
 if [ $CHOICE = 1 ]; then
 	echo time to encrypt some stuff !
-	echo enter the name of the file:
-	read FILE
+	echo enter the name of the folder:
+	read FOLDER
 
 	# Check if the folder exists
-	if test ! -d "$FILE"; then
-		echo "$FILE does not exist"
+	if test ! -d "$FOLDER"; then
+		echo "$FOLDER does not exist"
 		exit
 	fi
 
 	# Zip and encrypt the folder
-	zip -r $FILE.zip $FILE
-	gpg -c $FILE.zip
+	zip -r $FOLDER.zip $FOLDER
+	gpg -c $FOLDER.zip
 
 	# Be sure that the previous command has not been aborted
 	if [ $? != 0 ]; then
@@ -38,8 +38,8 @@ if [ $CHOICE = 1 ]; then
 
 	# Remove/shred original folder and .zip file
 	echo shredding garbage, this may take some time...
-	shred --remove $FILE.zip
-	rm -r $FILE
+	shred --remove $FOLDER.zip
+	rm -r $FOLDER
 else
 	echo time to recover your stuff !
 	echo enter the name of the file:
