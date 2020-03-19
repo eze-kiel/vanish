@@ -39,8 +39,10 @@ if [ $CHOICE = 1 ]; then
 
 	# Remove/shred original folder and .zip file
 	echo shredding garbage, this may take some time...
-	shred --remove $FOLDER.zip
-	rm -r $FOLDER
+	echo "  shredding $FOLDER.zip..."
+	srm $FOLDER.zip
+	echo "  shredding $FOLDER/..."
+	srm -r $FOLDER
 elif [ $CHOICE = 2 ]; then
 	echo time to recover your stuff !
 	echo enter the name of the file:
@@ -63,7 +65,10 @@ elif [ $CHOICE = 2 ]; then
 
 	# Shred and remove encrypted and zipped stuff
 	echo shredding garbage, this may take some time...
-	shred --remove $FILE.zip.gpg $FILE.zip
+	echo "  shredding $FILE.zip.gpg..."
+	srm $FILE.zip.gpg 
+	echo "  shredding $FILE.zip..."
+	srm $FILE.zip
 
 elif [ $CHOICE = 0 ]; then
 	echo quitting...
