@@ -18,6 +18,16 @@ Encrypt and decrypt folders with GPG.
 $./vanish
 ```
 
+You should also add its folder in your path by adding the following line in your .bashrc, in order to access it from everywhere :
+```Shell
+export PATH="{$PATH}:path/to/the/program"
+```
+
+So you will just have to use :
+```Shell
+$ vanish
+```
+
 ## Author
 
 Written by ezekiel.
