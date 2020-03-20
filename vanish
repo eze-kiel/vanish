@@ -12,9 +12,6 @@ echo "
 "
 echo vanish - rev 2020.03 - ezekiel
 echo " "
-echo list of files and folders:
-ls
-echo " "
 echo 1] encrypt
 echo 2] decrypt
 echo 0] quit
