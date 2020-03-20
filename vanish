@@ -12,7 +12,7 @@ echo "
 "
 echo vanish - rev 2020.03 - ezekiel
 echo " "
-echo list of files folders:
+echo list of files and folders:
 ls
 echo " "
 echo 1] encrypt
@@ -43,13 +43,12 @@ if [ $CHOICE = 1 ]; then
 		exit $?
 	fi
 
-
 	# Remove/shred original folder and .zip file
 	echo shredding garbage, this may take some time...
-	echo "  shredding $FOLDER.zip..."
-	shred --remove $FOLDER.zip
-	echo "  shredding $FOLDER/..."
-	srm -rfll $FOLDER
+	echo "shredding $FOLDER.zip..."
+	shred --remove -v $FOLDER.zip
+	echo "shredding $FOLDER/..."
+	srm -rfllv $FOLDER
 
 elif [ $CHOICE = 2 ]; then
 	echo time to recover your stuff !
@@ -76,10 +75,10 @@ elif [ $CHOICE = 2 ]; then
 
 	# Shred and remove encrypted and zipped stuff
 	echo shredding garbage, this may take some time...
-	echo "  shredding $FILE.zip.gpg..."
-	shred --remove $FILE.zip.gpg 
-	echo "  shredding $FILE.zip..."
-	shred --remove $FILE.zip
+	echo "shredding $FILE.zip.gpg..."
+	shred --remove -v $FILE.zip.gpg 
+	echo "shredding $FILE.zip..."
+	shred --remove -v $FILE.zip
 
 elif [ $CHOICE = 0 ]; then
 	echo quitting...
