@@ -31,7 +31,7 @@ export PATH="{$PATH}:path/to/the/program"
 
 So you will just have to use :
 ```Shell
-$ vanish
+$ vanish [OPTIONS]
 ```
 
 ## Author
