@@ -1,28 +1,7 @@
 #!/bin/sh
-echo "
-                    )  (    (        )  
-          (      ( /(  )\ ) )\ )  ( /(  
- (   (    )\     )\())(()/((()/(  )\()) 
- )\  )\((((_)(  ((_)\  /(_))/(_))((_)\  
-((_)((_))\ _ )\  _((_)(_)) (_))   _((_) 
-\ \ / / (_)_\(_)| \| ||_ _|/ __| | || | 
- \ V /   / _ \  | .' | | | \__ \ | __ | 
-  \_/   /_/ \_\ |_|\_||___||___/ |_||_| 
-                                        
-"
-echo vanish - rev 2020.03 - ezekiel
-echo " "
-echo 1] encrypt
-echo 2] decrypt
-echo 0] quit
-read CHOICE
 
-if [ $CHOICE = 1 ]; then
-	echo time to encrypt some stuff !
-	echo enter the name of the folder:
-	read FOLDER
-
-	# Check if the folder exists
+encrypt(){
+	FOLDER=$1
 	if test ! -d "$FOLDER"; then
 		echo "$FOLDER does not exist or is already encrypted"
 		sleep 1
@@ -30,8 +9,6 @@ if [ $CHOICE = 1 ]; then
 		sleep 1
 		exit
 	fi
-
-	# Zip and encrypt the folder
 	zip -r $FOLDER.zip $FOLDER
 	gpg -c $FOLDER.zip
 
@@ -46,12 +23,10 @@ if [ $CHOICE = 1 ]; then
 	shred --remove -v $FOLDER.zip
 	echo "shredding $FOLDER/..."
 	srm -rfllv $FOLDER
+}
 
-elif [ $CHOICE = 2 ]; then
-	echo time to recover your stuff !
-	echo enter the name of the file:
-	read FILE
-
+decrypt(){
+	FILE=$1
 	# Check if the file exists
 	if test ! -f "$FILE.zip.gpg"; then
 		echo "$FILE does not exist or is already decrypted"
@@ -76,14 +51,45 @@ elif [ $CHOICE = 2 ]; then
 	shred --remove -v $FILE.zip.gpg 
 	echo "shredding $FILE.zip..."
 	shred --remove -v $FILE.zip
+}
 
-elif [ $CHOICE = 0 ]; then
-	echo quitting...
-	sleep 0.5
-	exit
+usage(){
+	echo "
+options :
+	-e, --encrypt <folder name>
+		encrypt a folder
+	-d, --decrypt <file name>
+		decrypt a file
+	-h, --help
+		show this help
+	"
+}
+echo "
+                    )  (    (        )  
+          (      ( /(  )\ ) )\ )  ( /(  
+ (   (    )\     )\())(()/((()/(  )\()) 
+ )\  )\((((_)(  ((_)\  /(_))/(_))((_)\  
+((_)((_))\ _ )\  _((_)(_)) (_))   _((_) 
+\ \ / / (_)_\(_)| \| ||_ _|/ __| | || | 
+ \ V /   / _ \  | .' | | | \__ \ | __ | 
+  \_/   /_/ \_\ |_|\_||___||___/ |_||_| 
+                                        
+"
+echo vanish - rev 2020.03 - ezekiel
+echo " "
 
-else
-	echo unknown input, quitting...
-	sleep 0.5
-	exit
-fi
+while [ "$1" != "" ]; do
+	case $1 in
+		-e | --encrypt )	shift
+					encrypt $1
+					shift
+					;;
+		-d | --decrypt )	shift
+					decrypt $1
+					shift
+					;;
+		-h | --help )		usage
+					exit
+					;;
+	esac
+done
