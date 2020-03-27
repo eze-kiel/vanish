@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 
 encrypt(){
 	FOLDER=$1
@@ -9,6 +10,11 @@ encrypt(){
 		sleep 1
 		exit
 	fi
+
+    if [ ${FOLDER: -1} == "/" ]; then
+        FOLDER=${FOLDER%?}
+    fi
+
 	zip -r $FOLDER.zip $FOLDER
 	gpg -c $FOLDER.zip
 
@@ -28,7 +34,7 @@ encrypt(){
 decrypt(){
 	FILE=$1
 	# Check if the file exists
-	if test ! -f "$FILE.zip.gpg"; then
+	if test ! -f "$FILE"; then
 		echo "$FILE does not exist or is already decrypted"
 		sleep 1
 		echo quitting...
@@ -37,8 +43,8 @@ decrypt(){
 	fi
 
 	# Decrypt and unzip the folder
-	gpg $FILE.zip.gpg
-	unzip $FILE.zip
+	gpg $FILE
+    unzip "${FILE%.*}"
 
 	# Be sure that the previous command has not been aborted
 	if [ $? != 0 ]; then
@@ -48,9 +54,9 @@ decrypt(){
 	# Shred and remove encrypted and zipped stuff
 	echo shredding garbage, this may take some time...
 	echo "shredding $FILE.zip.gpg..."
-	shred --remove -v $FILE.zip.gpg 
+	shred --remove -v $FILE
 	echo "shredding $FILE.zip..."
-	shred --remove -v $FILE.zip
+	shred --remove -v ${FILE%.*}
 }
 
 usage(){
