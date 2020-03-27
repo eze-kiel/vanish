@@ -11,11 +11,17 @@
 ```
 ![Licence](https://img.shields.io/badge/License-GPL-brightgreen)
 
-Encrypt and decrypt folders with GPG.
+Encrypt and decrypt folders with GPG in command line.
 
 ## Usage
 ```Shell
-$./vanish
+options :
+	-e, --encrypt <folder name>
+		encrypt a folder
+	-d, --decrypt <file name>
+		decrypt a file
+	-h, --help
+		show this help
 ```
 
 You should also add its folder in your path by adding the following line in your .bashrc, in order to access it from everywhere :
